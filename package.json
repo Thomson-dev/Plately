@@ -1,0 +1,14 @@
+{
+  "name": "zomato",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/app",
+    "build": "npm run build --workspace=apps/app",
+    "start": "npm run start --workspace=apps/app",
+    "migrate": "npm run migrate --workspace=apps/app"
+  }
+}
