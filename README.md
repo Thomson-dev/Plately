@@ -1,4 +1,4 @@
-# Zomato
+# Plately
 
 A restaurant ordering backend. npm workspaces monorepo with a single Express + PostgreSQL service under `apps/app`.
 
