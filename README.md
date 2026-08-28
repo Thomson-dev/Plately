@@ -62,7 +62,7 @@ npm run dev
 
 ## API
 
-All routes are mounted under `/api`.
+All routes are mounted under `/api`. See [docs/API.md](docs/API.md) for full request/response examples and `curl` usage for every endpoint below.
 
 ### Auth — `/api/auth`
 Register, login, refresh, logout. Issues JWT access/refresh tokens.
@@ -75,6 +75,7 @@ Authenticated user profile endpoints.
 | Method | Path | Auth | Description |
 | --- | --- | --- | --- |
 | GET | `/api/restaurants` | none | List restaurants with `status = 'active'` — public browsing before login |
+| GET | `/api/restaurants/:id` | none | Fetch one restaurant; 404 unless `status = 'active'` |
 | POST | `/api/restaurants` | seller | Create a restaurant |
 | PATCH | `/api/restaurants/:id` | seller (owner only) | Partial update; only the fields present in the body are changed |
 
@@ -87,8 +88,9 @@ Authenticated user profile endpoints.
 | GET | `/api/restaurants/:restaurantId/categories` | none | List a restaurant's categories, ordered by `display_order, name` — public, restricted to active restaurants |
 | POST | `/api/restaurants/:restaurantId/categories` | seller (owner only) | Create a category under the restaurant |
 | PATCH | `/api/restaurants/:restaurantId/categories/:categoryId` | seller (owner only) | Partial update; only the fields present in the body are changed |
+| DELETE | `/api/restaurants/:restaurantId/categories/:categoryId` | seller (owner only) | Delete a category |
 
-`POST`/`PATCH` verify the restaurant belongs to the authenticated seller; `PATCH` additionally verifies the category belongs to that restaurant before updating. As with restaurants, all of "doesn't exist", "belongs to someone else's restaurant", and "belongs to a different restaurant" collapse to 404 so ownership can't be probed.
+`POST`/`PATCH`/`DELETE` verify the restaurant belongs to the authenticated seller; `PATCH`/`DELETE` additionally verify the category belongs to that restaurant before acting. As with restaurants, all of "doesn't exist", "belongs to someone else's restaurant", and "belongs to a different restaurant" collapse to 404 so ownership can't be probed.
 
 ### Health
 
