@@ -106,3 +106,7 @@ export async function update(
   }
   return mapRow(result.rows[0]);
 }
+
+export async function deleteCategory(id: string): Promise<void> {
+  await pool.query('DELETE FROM categories WHERE id = $1', [id]);
+}

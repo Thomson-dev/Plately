@@ -44,3 +44,21 @@ export async function updateCategory(
 
   return CategoryModel.update(categoryId, patch);
 }
+
+export async function deleteCategory(
+  restaurantId: string,
+  categoryId: string,
+  sellerId: string
+): Promise<void> {
+  const ownedRestaurant = await RestaurantModel.findByIdAndSellerId(restaurantId, sellerId);
+  if (!ownedRestaurant) {
+    throw new HttpError(404, 'Restaurant not found');
+  }
+
+  const category = await CategoryModel.findByIdAndRestaurantId(categoryId, restaurantId);
+  if (!category) {
+    throw new HttpError(404, 'Category not found');
+  }
+
+  await CategoryModel.deleteCategory(categoryId);
+}

@@ -154,3 +154,18 @@ export async function updateCategory(
     next(err);
   }
 }
+
+export async function deleteCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const sellerId = req.user!.sub;
+    await categoryService.deleteCategory(req.params.restaurantId, req.params.categoryId, sellerId);
+
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}

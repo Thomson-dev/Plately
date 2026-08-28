@@ -21,5 +21,11 @@ router.patch(
   requireRole('seller'),
   restaurantController.updateCategory
 );
+router.delete(
+  '/:restaurantId/categories/:categoryId',
+  requireAuth,
+  requireRole('seller'),
+  restaurantController.deleteCategory
+);
 
 export default router;
