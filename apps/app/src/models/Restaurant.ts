@@ -67,7 +67,10 @@ function mapRow(row: RestaurantRow): Restaurant {
 }
 
 export async function findById(id: string): Promise<Restaurant | null> {
-  const result = await pool.query<RestaurantRow>('SELECT * FROM restaurants WHERE id = $1', [id]);
+  const result = await pool.query<RestaurantRow>(
+    "SELECT * FROM restaurants WHERE id = $1 AND status = 'active'",
+    [id]
+  );
   return result.rows[0] ? mapRow(result.rows[0]) : null;
 }
 
