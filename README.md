@@ -80,6 +80,16 @@ Authenticated user profile endpoints.
 
 `PATCH` verifies the restaurant belongs to the authenticated seller before updating, and both "doesn't exist" and "belongs to someone else" return 404 so ownership can't be probed.
 
+### Categories — `/api/restaurants/:restaurantId/categories`
+
+| Method | Path | Auth | Description |
+| --- | --- | --- | --- |
+| GET | `/api/restaurants/:restaurantId/categories` | none | List a restaurant's categories, ordered by `display_order, name` — public, restricted to active restaurants |
+| POST | `/api/restaurants/:restaurantId/categories` | seller (owner only) | Create a category under the restaurant |
+| PATCH | `/api/restaurants/:restaurantId/categories/:categoryId` | seller (owner only) | Partial update; only the fields present in the body are changed |
+
+`POST`/`PATCH` verify the restaurant belongs to the authenticated seller; `PATCH` additionally verifies the category belongs to that restaurant before updating. As with restaurants, all of "doesn't exist", "belongs to someone else's restaurant", and "belongs to a different restaurant" collapse to 404 so ownership can't be probed.
+
 ### Health
 
 `GET /health` — liveness check, returns `{ status: 'ok' }`.
