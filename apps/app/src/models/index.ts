@@ -8,6 +8,8 @@ export * as FoodModel from './Food';
 export * as RestaurantHoursModel from './RestaurantHours';
 export * as RestaurantImageModel from './RestaurantImage';
 export * as ReviewModel from './Review';
+export * as OrderModel from './Order';
+export * as OrderItemModel from './OrderItem';
 export type { User, Role } from './User';
 export type { RefreshToken } from './RefreshToken';
 export type { Restaurant, RestaurantStatus } from './Restaurant';
@@ -21,6 +23,8 @@ export type {
   GalleryImageType,
 } from './RestaurantImage';
 export type { Review } from './Review';
+export type { Order, OrderStatus, PaymentStatus } from './Order';
+export type { OrderItem } from './OrderItem';
 
 export type SafeUser = Omit<User, 'passwordHash'>;
 

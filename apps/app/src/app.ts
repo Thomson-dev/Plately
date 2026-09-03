@@ -7,6 +7,7 @@ import { env } from './config/env';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import restaurantRoutes from './routes/restaurant.routes';
+import orderRoutes from './routes/order.routes';
 import { HttpError } from './utils/http-error';
 
 const app = express();
@@ -20,6 +21,7 @@ app.get('/health', (req: Request, res: Response) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Not found' });

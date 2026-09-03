@@ -3,8 +3,10 @@ import * as RestaurantModel from '../models/Restaurant';
 import * as CategoryModel from '../models/Category';
 import * as restaurantService from '../services/restaurant.service';
 import * as categoryService from '../services/category.service';
+import * as foodService from '../services/food.service';
 import { createRestaurantSchema, updateRestaurantSchema } from '../types/restaurant-requests';
 import { createCategorySchema, updateCategorySchema } from '../types/category-requests';
+import { updateFoodSchema } from '../types/food-requests';
 
 export async function listActiveRestaurants(
   _req: Request,
@@ -163,6 +165,70 @@ export async function deleteCategory(
   try {
     const sellerId = req.user!.sub;
     await categoryService.deleteCategory(req.params.restaurantId, req.params.categoryId, sellerId);
+
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getFoodsByCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const foods = await foodService.getFoodsByCategory(
+      req.params.restaurantId,
+      req.params.categoryId
+    );
+
+    res.json({ foods });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateFood(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const parsed = updateFoodSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ message: 'Invalid request body', errors: parsed.error.flatten() });
+      return;
+    }
+
+    const sellerId = req.user!.sub;
+    const food = await foodService.updateFood(
+      req.params.restaurantId,
+      req.params.categoryId,
+      req.params.foodId,
+      sellerId,
+      parsed.data
+    );
+
+    res.json({ food });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function deleteFood(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const sellerId = req.user!.sub;
+    await foodService.deleteFood(
+      req.params.restaurantId,
+      req.params.categoryId,
+      req.params.foodId,
+      sellerId
+    );
 
     res.status(204).send();
   } catch (err) {
